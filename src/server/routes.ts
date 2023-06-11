@@ -1,10 +1,10 @@
 import { Request, Response, Router } from 'express';
 
-import testRouter from '@/controllers/test';
+import askRouter from '@/controllers/ask';
 
 const ROUTES = Router();
 
-ROUTES.use('/test', testRouter);
+ROUTES.use('/ask', askRouter);
 
 ROUTES.get('/', (_req: Request, res: Response) =>
   res.json('DungeonMaster Bot')
