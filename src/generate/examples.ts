@@ -26,6 +26,7 @@ export const MEMBER_QUERY_EXAMPLE = `
       id
       name
       eth_address
+      is_raiding
       contact_info {
         discord
       }
@@ -39,6 +40,10 @@ export const MEMBER_FUNCTION_EXAMPLE = `
       "members": [
         {
           "name": "Bob Smith"
+          "eth_address": "0x1234567890"
+          "is_raiding": true
+          "created_at": "2021-01-01T00:00:00.000Z"
+          "updated_at": "2021-01-01T00:00:00.000Z"
           "contact_info": {
             "discord": "Bob#1234"
           }

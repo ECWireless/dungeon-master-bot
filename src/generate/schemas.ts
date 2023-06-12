@@ -4,6 +4,9 @@ export const SCHEMAS = `
     name: String!
     eth_address: String
     contact_info: ContactInfo
+    is_raiding: Boolean
+    created_at: Date!
+    updated_at: Date!
   }
 
   type ContactInfo {

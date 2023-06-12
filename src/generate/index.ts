@@ -85,7 +85,7 @@ export const generateResponse = async (prompt: string) => {
   let completion = await openai.createCompletion({
     model: 'text-davinci-003',
     prompt: generatePrompt(prompt),
-    temperature: 0.6,
+    temperature: 0.8,
     max_tokens: 150
   });
 
@@ -98,7 +98,7 @@ export const generateResponse = async (prompt: string) => {
   completion = await openai.createCompletion({
     model: 'text-davinci-003',
     prompt: generateFormattingFunction(prompt),
-    temperature: 0.6,
+    temperature: 0.8,
     max_tokens: 150
   });
 

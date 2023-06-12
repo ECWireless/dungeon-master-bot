@@ -22,7 +22,7 @@ router.post('/', async (req: Request, res: Response) => {
     const response = await generateResponse(prompt);
     res.json({ response });
   } catch (error) {
-    console.error('An error occurred:', error);
+    console.error(error);
     const status = (error as HttpError).status ?? 500;
     res.status(status).json({
       response: 'Error: could not generate response',
