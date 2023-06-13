@@ -17,6 +17,7 @@ export const executeInteraction = async (
   prompt: string
 ) => {
   const response = await generateResponse(prompt);
+  console.log(`Generated response: ${response}`);
 
   await interaction.followUp({
     content: `

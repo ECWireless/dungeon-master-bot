@@ -91,6 +91,8 @@ export const generateResponse = async (prompt: string): Promise<string> => {
 
   const query = completion.data.choices[0].text?.trim();
 
+  console.log(`Generated query: ${query}`);
+
   if (!query) {
     throw new Error('No query generated');
   }
@@ -101,6 +103,8 @@ export const generateResponse = async (prompt: string): Promise<string> => {
 
   const data = await fetchAPIData(query);
 
+  console.log(`Fetched data: ${JSON.stringify(data)}`);
+
   completion = await openai.createCompletion({
     model: 'text-davinci-003',
     prompt: generateFormattingFunction(prompt),
@@ -109,6 +113,8 @@ export const generateResponse = async (prompt: string): Promise<string> => {
   });
 
   const myFunction = completion.data.choices[0].text;
+  console.log(`Generated function: ${myFunction}`);
+
   const script = new vm.Script(myFunction || '');
   const context = vm.createContext({});
 
