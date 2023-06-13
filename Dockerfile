@@ -2,12 +2,11 @@ FROM node:16
 
 WORKDIR /src
 
-COPY yarn.lock .
-COPY package.json .
-COPY tsconfig.json .
-COPY src ./src
+COPY package.json yarn.lock ./
 
-RUN yarn install --frozen-lockfile
+RUN yarn install --production
+
+COPY . .
 
 ENV PORT=8080
 
