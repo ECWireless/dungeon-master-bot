@@ -23,7 +23,8 @@
     "start": "ts-node -T src/index.ts",
     "lint": "eslint --ignore-path .gitignore \"*/**/*.{js,jsx,ts,tsx}\" --fix",
     "format": "prettier --ignore-path .gitignore --write \"{*,**/*}.{ts,tsx,js,jsx,json,yml,yaml,md}\"",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
