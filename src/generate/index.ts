@@ -63,25 +63,25 @@ const fetchAPIData = async (query: string): Promise<{ data: unknown }> => {
   }
 };
 
-export const generateFormattingFunction = (prompt: string) => {
+const generateFormattingFunction = (prompt: string) => {
   return `
   The question I am asking is: ${prompt}
 
   The schemas are:
 
   ${SCHEMAS}
-    
+
   An example of returned data would be:
 
   ${prompt.includes('raid') ? RAID_FUNCTION_EXAMPLE : MEMBER_FUNCTION_EXAMPLE}
 
   Based on returned data, write a function that returns the data formatted as the answer to the above question. You don't need to do anything complicated (no loops or equality checks). Just return the data in the format that the question is asking for.
-  
-  IMPORTANT: Don't respond with anything except the function. Call the function "parseData" and make sure it takes a single argument called "data".
+
+  IMPORTANT: Don't respond with anything except the function. Call the function "parseData" and make sure it takes a single argument called "data". Use the function keyword, not the arrow function syntax. Return a string.
 `;
 };
 
-export const generateResponse = async (prompt: string) => {
+export const generateResponse = async (prompt: string): Promise<string> => {
   let completion = await openai.createCompletion({
     model: 'text-davinci-003',
     prompt: generatePrompt(prompt),
@@ -90,11 +90,17 @@ export const generateResponse = async (prompt: string) => {
   });
 
   const query = completion.data.choices[0].text?.trim();
+
   if (!query) {
     throw new Error('No query generated');
   }
 
+  if (query.includes('mutation')) {
+    throw new Error('Query generated is a mutation');
+  }
+
   const data = await fetchAPIData(query);
+
   completion = await openai.createCompletion({
     model: 'text-davinci-003',
     prompt: generateFormattingFunction(prompt),
@@ -103,8 +109,7 @@ export const generateResponse = async (prompt: string) => {
   });
 
   const myFunction = completion.data.choices[0].text;
-  const formattedFunction = (myFunction || '').replace(/(\r\n|\n|\r)/gm, '');
-  const script = new vm.Script(formattedFunction);
+  const script = new vm.Script(myFunction || '');
   const context = vm.createContext({});
 
   script.runInContext(context);
