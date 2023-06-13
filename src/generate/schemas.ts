@@ -30,4 +30,5 @@ export const SCHEMAS = `
     RAIDING
     SHIPPED
     LOST
+  }
 `;

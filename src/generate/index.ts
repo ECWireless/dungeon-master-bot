@@ -112,10 +112,14 @@ export const generateResponse = async (prompt: string): Promise<string> => {
     max_tokens: 150
   });
 
-  const myFunction = completion.data.choices[0].text;
-  console.log(`Generated function: ${myFunction}`);
+  const generatedFunction = completion.data.choices[0].text;
+  const separatedFunction = generatedFunction?.split(
+    'function parseData(data) {'
+  );
+  const functionBody = separatedFunction?.[1] || '';
+  const formattedFunction = `function parseData(data) {${functionBody}`;
 
-  const script = new vm.Script(myFunction || '');
+  const script = new vm.Script(formattedFunction);
   const context = vm.createContext({});
 
   script.runInContext(context);
