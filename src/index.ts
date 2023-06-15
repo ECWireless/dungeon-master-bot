@@ -5,11 +5,12 @@ import morgan from 'morgan';
 
 import { executeInteraction, queryCommand } from '@/commands';
 import { ROUTES } from '@/server/routes';
-import { DISCORD_TOKEN, PORT } from '@/utils/constants';
-
-type ClientWithCommands = Client & {
-  commands?: Collection<string, unknown>;
-};
+import { ClientWithCommands } from '@/types';
+import {
+  DISCORD_ALLOWED_PARENT_CHANNEL_IDS,
+  DISCORD_TOKEN,
+  PORT
+} from '@/utils/constants';
 
 export const createServer = () => {
   const client: ClientWithCommands = new Client({
@@ -42,6 +43,20 @@ export const createServer = () => {
 
     if (!command) {
       console.log(`Command ${interaction.commandName} not found`);
+      return;
+    }
+
+    const channelId = interaction.channel?.id;
+    const channel = interaction.guild?.channels.cache.get(channelId ?? '');
+
+    if (
+      channel?.parentId &&
+      !DISCORD_ALLOWED_PARENT_CHANNEL_IDS.includes(channel.parentId)
+    ) {
+      await interaction.reply({
+        content: 'You cannot use DungeonMaster in this channel!',
+        ephemeral: true
+      });
       return;
     }
 

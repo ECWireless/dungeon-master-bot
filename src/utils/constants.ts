@@ -8,6 +8,9 @@ export const DISCORD_TOKEN = process.env.DISCORD_TOKEN ?? '';
 export const DISCORD_GUILD_ID = process.env.DISCORD_GUILD_ID ?? '';
 export const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID ?? '';
 
+export const DISCORD_ALLOWED_PARENT_CHANNEL_IDS =
+  process.env.DISCORD_ALLOWED_PARENT_CHANNEL_IDS?.split(',') ?? [];
+
 export const OPENAI_API_KEY = process.env.OPENAI_API_KEY ?? '';
 
 export const HASURA_GRAPHQL_ENDPOINT =
