@@ -7,6 +7,8 @@ export const PORT = process.env.PORT ? Number(process.env.PORT) : 8080;
 export const DISCORD_TOKEN = process.env.DISCORD_TOKEN ?? '';
 export const DISCORD_GUILD_ID = process.env.DISCORD_GUILD_ID ?? '';
 export const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID ?? '';
+export const DISCORD_COMMAND_CENTER_ID =
+  process.env.DISCORD_COMMAND_CENTER_ID ?? '';
 
 export const DISCORD_ALLOWED_PARENT_CHANNEL_IDS =
   process.env.DISCORD_ALLOWED_PARENT_CHANNEL_IDS?.split(',') ?? [];
