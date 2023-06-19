@@ -11,6 +11,7 @@ import {
   DISCORD_TOKEN,
   PORT
 } from '@/utils/constants';
+import { discordLogger } from '@/utils/logger';
 
 export const createServer = () => {
   const client: ClientWithCommands = new Client({
@@ -75,6 +76,7 @@ export const createServer = () => {
       await executeInteraction(interaction, prompt);
     } catch (error) {
       console.error(error);
+      discordLogger(error, client);
       if (interaction.replied || interaction.deferred) {
         await interaction.followUp({
           content: `
@@ -82,6 +84,7 @@ export const createServer = () => {
           `
         });
       } else {
+        discordLogger(error, client);
         await interaction.reply({
           content: `
             Original query: ${prompt}\n\nThere was an error while generating a response!
