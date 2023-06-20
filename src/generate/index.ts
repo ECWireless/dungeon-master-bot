@@ -24,14 +24,18 @@ const generatePrompt = (prompt: string) => {
   return `
     Based on the following schemas, how would you query in GraphQL to get the data you need?
     The question I am asking is: ${prompt}
-    
+
     The schemas are:
 
     ${SCHEMAS}
 
     An example would be:
-
-    ${prompt.includes('raid') ? RAID_QUERY_EXAMPLE : MEMBER_QUERY_EXAMPLE}
+    
+    ${RAID_QUERY_EXAMPLE}
+    
+    OR
+    
+    ${MEMBER_QUERY_EXAMPLE}
 
     IMPORTANT: Don't respond with anything except the exact query. Return all fields for an entity, even if they are not needed.
   `;
@@ -73,7 +77,11 @@ const generateFormattingFunction = (prompt: string) => {
 
   An example of returned data would be:
 
-  ${prompt.includes('raid') ? RAID_FUNCTION_EXAMPLE : MEMBER_FUNCTION_EXAMPLE}
+  ${RAID_FUNCTION_EXAMPLE}
+  
+  OR
+  
+  ${MEMBER_FUNCTION_EXAMPLE}
 
   Based on returned data, write a function that returns the data formatted as the answer to the above question. You don't need to do anything complicated (no loops or equality checks). Just return the data in the format that the question is asking for.
 
@@ -85,7 +93,7 @@ export const generateResponse = async (prompt: string): Promise<string> => {
   let completion = await openai.createCompletion({
     model: 'text-davinci-003',
     prompt: generatePrompt(prompt),
-    temperature: 0.8,
+    temperature: 0.3,
     max_tokens: 150
   });
 
@@ -108,7 +116,7 @@ export const generateResponse = async (prompt: string): Promise<string> => {
   completion = await openai.createCompletion({
     model: 'text-davinci-003',
     prompt: generateFormattingFunction(prompt),
-    temperature: 0.8,
+    temperature: 0.4,
     max_tokens: 150
   });
 
@@ -118,6 +126,8 @@ export const generateResponse = async (prompt: string): Promise<string> => {
   );
   const functionBody = separatedFunction?.[1] || '';
   const formattedFunction = `function parseData(data) {${functionBody}`;
+
+  console.log(`Generated function: ${formattedFunction}`);
 
   const script = new vm.Script(formattedFunction);
   const context = vm.createContext({});
