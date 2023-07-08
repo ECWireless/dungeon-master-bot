@@ -90,14 +90,19 @@ const generateFormattingFunction = (prompt: string) => {
 };
 
 export const generateResponse = async (prompt: string): Promise<string> => {
-  let completion = await openai.createCompletion({
-    model: 'text-davinci-003',
-    prompt: generatePrompt(prompt),
-    temperature: 0.3,
+  let completion = await openai.createChatCompletion({
+    model: 'gpt-3.5-turbo',
+    messages: [
+      {
+        role: 'user',
+        content: generatePrompt(prompt)
+      }
+    ],
+    temperature: 0.4,
     max_tokens: 150
   });
 
-  const query = completion.data.choices[0].text?.trim();
+  const query = completion.data.choices[0].message?.content.trim();
 
   console.log(`Generated query: ${query}`);
 
@@ -113,14 +118,27 @@ export const generateResponse = async (prompt: string): Promise<string> => {
 
   console.log(`Fetched data: ${JSON.stringify(data)}`);
 
-  completion = await openai.createCompletion({
-    model: 'text-davinci-003',
-    prompt: generateFormattingFunction(prompt),
-    temperature: 0.4,
-    max_tokens: 150
+  completion = await openai.createChatCompletion({
+    model: 'gpt-3.5-turbo',
+    messages: [
+      {
+        role: 'user',
+        content: generatePrompt(prompt)
+      },
+      {
+        role: 'assistant',
+        content: query
+      },
+      {
+        role: 'user',
+        content: generateFormattingFunction(prompt)
+      }
+    ],
+    temperature: 0.1,
+    max_tokens: 500
   });
 
-  const generatedFunction = completion.data.choices[0].text;
+  const generatedFunction = completion.data.choices[0].message?.content;
   const separatedFunction = generatedFunction?.split(
     'function parseData(data) {'
   );
