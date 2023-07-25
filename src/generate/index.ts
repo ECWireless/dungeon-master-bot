@@ -91,7 +91,7 @@ const generateFormattingFunction = (prompt: string) => {
 
 export const generateResponse = async (prompt: string): Promise<string> => {
   let completion = await openai.createChatCompletion({
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-4',
     messages: [
       {
         role: 'user',
