@@ -4,6 +4,7 @@ import express from 'express';
 import morgan from 'morgan';
 
 import { executeInteraction, queryCommand } from '@/commands';
+import { createComradeSentryServer } from '@/comradeSentry';
 import { ROUTES } from '@/server/routes';
 import { ClientWithCommands } from '@/types';
 import {
@@ -98,3 +99,4 @@ export const createServer = () => {
 };
 
 createServer();
+createComradeSentryServer();

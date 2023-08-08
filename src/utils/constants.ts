@@ -5,10 +5,22 @@ dotenv.config();
 export const PORT = process.env.PORT ? Number(process.env.PORT) : 8080;
 
 export const DISCORD_TOKEN = process.env.DISCORD_TOKEN ?? '';
+export const DISCORD_GUARD_TOKEN = process.env.DISCORD_GUARD_TOKEN ?? '';
 export const DISCORD_GUILD_ID = process.env.DISCORD_GUILD_ID ?? '';
 export const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID ?? '';
+export const DISCORD_GUARD_CLIENT_ID =
+  process.env.DISCORD_GUARD_CLIENT_ID ?? '';
 export const DISCORD_COMMAND_CENTER_ID =
   process.env.DISCORD_COMMAND_CENTER_ID ?? '';
+export const DISCORD_START_HERE_CHANNEL_ID =
+  process.env.DISCORD_START_HERE_CHANNEL_ID ?? '';
+export const DISCORD_ALLOWED_TIME_WITHOUT_ANY_ROLES =
+  process.env.DISCORD_ALLOWED_TIME_WITHOUT_ANY_ROLES ?? 900000;
+export const DISCORD_ALLOW_BOTS = process.env.DISCORD_ALLOW_BOTS ?? false;
+export const DISCORD_UNLOCK_CHANNELS_ID =
+  process.env.DISCORD_UNLOCK_CHANNELS_ID ?? '';
+export const DISCORD_NEWCOMERS_CHANNEL_ID =
+  process.env.DISCORD_NEWCOMERS_CHANNEL_ID ?? '';
 
 export const DISCORD_ALLOWED_PARENT_CHANNEL_IDS =
   process.env.DISCORD_ALLOWED_PARENT_CHANNEL_IDS?.split(',') ?? [];
